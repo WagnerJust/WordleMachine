@@ -11,7 +11,8 @@ public class WordleMachine {
 
 
 
- //getters and settters
+ //getters and setters
+
 
     public WordBank getWordBank() {
          return wordBank;
@@ -48,34 +49,37 @@ public class WordleMachine {
         wordBank = new WordBank(startingWordBank);
     }
 
-    public List<Word> possibleWords(String word) {
-        for(Word bankWord: wordBank.getWordsInBank()){
-            filterThroughCharacters(bankWord);
+
+    public void filterWords() {
+        for (Word wordFromBank : wordBank.getWordsInBank()) {  // grab a wordbank word
+            for (String letter : wordBank.getBadLetters()) { // loop through bad letters and check if wordbank word has them
+                if (wordFromBank.getWord().contains(letter)) {
+                    wordFromBank.setPossible(false);
+                }
+            }
+            for (String letter : wordBank.getMisplacedLetters()) {
+                if (!wordFromBank.getWord().contains(letter)) {
+                    wordFromBank.setPossible(false);
+                }
+            }
+            for (String letter : wordBank.getPerfectLetters()) {
+                if (!wordFromBank.getWord().contains(letter)) {
+                    wordFromBank.setPossible(false);
+                }
+            }
+            if(wordFromBank.isPossible){
+                possibleWords.add(wordFromBank);
+            }
         }
-        return possibleWords;
+        this.setPossibleWords(possibleWords);
     }
 
-    public void filterThroughCharacters(Word wordToCheck){
-        for(char i : wordBank.getBadLetters().toCharArray()){
-            if(wordToCheck.getWord().indexOf(i) == -1){
-                wordToCheck.setPossible(false);
-            }
-        }
-        for(char i : wordBank.getPerfectLetters().toCharArray()){
-            if(wordToCheck.getWord().indexOf(i) != -1 && wordToCheck.isPossible){
-                possibleWords.add(wordToCheck);
-            }
-        }
-        for(char i : wordBank.getMisplacedLetters().toCharArray()){
-            if(wordToCheck.getWord().indexOf(i) != -1 && wordToCheck.isPossible){
-                possibleWords.add(wordToCheck);
-            }
-        }
-    }
 
 
     public WordleMachine() throws FileNotFoundException {
         readBank();
+        this.possibleWords = wordBank.getWordsInBank();
+
     }
 
 

@@ -4,33 +4,33 @@ import java.util.List;
 public class WordBank {
 
 
-    private String misplacedLetters;
-    private String perfectLetters;
+    private List<String> misplacedLetters;
+    private List<String> perfectLetters;
 
-    private String badLetters;
+    private List<String> badLetters;
 
     // Getters and Setters
-    public String getBadLetters() {
+    public List<String> getBadLetters() {
         return badLetters;
     }
 
-    public void setBadLetters(String badLetters) {
+    public void setBadLetters(List<String> badLetters) {
         this.badLetters = badLetters;
     }
 
-    public String getMisplacedLetters() {
+    public List<String> getMisplacedLetters() {
         return misplacedLetters;
     }
 
-    public void setMisplacedLetters(String misplacedLetters) {
+    public void setMisplacedLetters(List<String> misplacedLetters) {
         this.misplacedLetters = misplacedLetters;
     }
 
-    public String getPerfectLetters() {
+    public List<String> getPerfectLetters() {
         return perfectLetters;
     }
 
-    public void setPerfectLetters(String perfectLetters) {
+    public void setPerfectLetters(List<String> perfectLetters) {
         this.perfectLetters = perfectLetters;
     }
 
