@@ -1,112 +1,65 @@
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.sql.SQLOutput;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class WordleCLI {
 
+
     public void run() throws FileNotFoundException {
-
-
         WordleMachine myMachine = new WordleMachine();
-        welcomeStatement();
-        explanationStatement();
 
 
-        promptUser();
-        Scanner userInput = new Scanner(System.in);
-        Scanner wordScanner = new Scanner(userInput.nextLine());
-        wordScanner.useDelimiter(",");
+        boolean isRunning = true;
+        while(isRunning) {
+            Scanner userInput = new Scanner(System.in);
+            System.out.println("Enter good letters separated by comma: ");
 
-        myMachine.setUserWord(wordScanner.next());
-        try {
-            myMachine.getWordBank().setPerfectLetters(Arrays.asList(wordScanner.next().trim().split("")));
-            myMachine.getWordBank().setMisplacedLetters(Arrays.asList(wordScanner.next().trim().split("")));
-            myMachine.getWordBank().setBadLetters(Arrays.asList(wordScanner.next().trim().split("")));
-        } catch (Exception e){
-            System.out.printf(e.getMessage());
-        }
-        printPossibleList(myMachine);
+            Scanner letterReader = new Scanner(userInput.nextLine());
 
-        boolean isTrue = true;
-        while(isTrue){
-            userExit();
-            if(userInput.nextLine().equals("0")){
-                System.out.println("Now exiting the machine. Thank you for trying out my code!");
-                isTrue = false;
+            letterReader.useDelimiter(",");
+            while (letterReader.hasNext()) {
+                myMachine.updateGoodLetters(letterReader.next().charAt(0));
             }
-            promptUser();
-            wordScanner = new Scanner(userInput.nextLine());
-            wordScanner.useDelimiter(",");
 
-            myMachine.setUserWord(wordScanner.next());
+            System.out.println("Enter bad letters seperated by comma: ");
+            letterReader = new Scanner(userInput.nextLine());
+            while (letterReader.hasNext()) {
+                myMachine.updateBadLetters(letterReader.next().charAt(0));
+            }
 
-            //Update Lists of perfect, misplaced, and bad letters
-            List<String> updatePerfectLetters =  Arrays.asList(wordScanner.next().trim().split(""));
+            myMachine.filterWords(myMachine.getWordbank().getBadLetters(), myMachine.getWordbank().getGoodLetters());
 
-            myMachine.getWordBank().setPerfectLetters(Stream.concat(myMachine.getWordBank().getPerfectLetters().stream(),updatePerfectLetters.stream()).collect(Collectors.toList()));
-
-            List<String> updateMisplacedLetters =  Arrays.asList(wordScanner.next().trim().split(""));
-            myMachine.getWordBank().setMisplacedLetters(Stream.concat(myMachine.getWordBank().getMisplacedLetters().stream(),updateMisplacedLetters.stream()).collect(Collectors.toList()));
-
-            List<String> updateBadLetters =  Arrays.asList(wordScanner.next().trim().split(""));
-            myMachine.getWordBank().setBadLetters(Stream.concat(myMachine.getWordBank().getMisplacedLetters().stream(), updateBadLetters.stream()).collect(Collectors.toList()));
 
             printPossibleList(myMachine);
+
+            System.out.println("\nTo exit, enter 0. To continue, type any other number");
+            if(userInput.next().equals("0")){
+                System.out.println("Thanks for trying my application");
+                System.exit(0);
+            } else continue;
+
         }
-        System.exit(0);
 
-
-
+        System.out.println("Thanks for trying my application!");
     }
-
-
 
     public static void main (String[]args) throws IOException {
         WordleCLI cli = new WordleCLI();
         cli.run();
-    }
 
-    public static void welcomeStatement(){
-        System.out.println("\n\n-----------------------------------");
-        System.out.println("     Welcome to Wordle Machine     ");
-        System.out.println("-----------------------------------");
-        System.out.println();
-    }
-
-    public static void explanationStatement(){
-        System.out.println("     HOW DOES IT WORK?     ");
-        System.out.println();
-        System.out.println("Wordle Machine is a program that helps you solve the Wordle!" +
-                "It does this in a couple steps:\n");
-    }
-
-
-    public static void promptUser(){
-        System.out.println("\n-------DO THE FOLLOWING SEPARATED BY COMMAS | NO SPACES ------");
-        System.out.println("\nPlease enter your word, perfect letters, misplaced letters, and bad letters:\n");
-    }
-    public static void userExit(){
-        System.out.println();
-        System.out.println("\tIf you wish to stop, please enter 0\n");
     }
 
     public static void printPossibleList(WordleMachine myMachine){
 
-      myMachine.filterWords();
-      int i = 0;
-      for(Word word : myMachine.getPossibleWords()){
-          System.out.print(word.getWord() + "\t");
-          i++;
-          if(i%4 == 0){
-              System.out.println();
-          }
-      }
+        int i = 0;
+        for(Word word : myMachine.getWordbank().getPossibleWords()){
+            System.out.print(word.getWord() + "\t");
+            i++;
+            if(i%8 == 0){
+                System.out.println();
+            }
+        }
     }
+
 }

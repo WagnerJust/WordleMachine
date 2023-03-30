@@ -1,28 +1,18 @@
-public class Word {
+
+public class Word{
 
     private String word;
-    private String wordId;
-    boolean isPossible;
+    private int id;
 
-    public void setPossible(boolean possible) {
-        isPossible = possible;
+    //getters and setters
+
+
+    public int getId() {
+        return id;
     }
 
-
-
-    public String getWordId() {
-        return wordId;
-    }
-
-    public void setWordId(String wordId) {
-        this.wordId = wordId;
-    }
-
-    public Word(String id, String word){
-        this.wordId=id;
-        this.word = word;
-        this.isPossible = true;
-
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getWord() {
@@ -31,5 +21,12 @@ public class Word {
 
     public void setWord(String word) {
         this.word = word;
+    }
+
+    // constructor
+
+    public Word(String id, String word) {
+        this.word = word;
+        this.id = Integer.parseInt(id);
     }
 }

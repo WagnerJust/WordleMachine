@@ -1,56 +1,55 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordBank {
+public class WordBank{
 
 
-    private List<String> misplacedLetters;
-    private List<String> perfectLetters;
+    private List<Word> wordBank;
+    private List<Word> possibleWords;
+    private List<Character> badLetters;
+    private List<Character> goodLetters;
 
-    private List<String> badLetters;
+//getters and setters
+    public List<Word> getWordBank() {
+        return wordBank;
+    }
 
-    // Getters and Setters
-    public List<String> getBadLetters() {
+    public void setWordBank(List<Word> wordBank) {
+        this.wordBank = wordBank;
+    }
+
+    public List<Word> getPossibleWords() {
+        return possibleWords;
+    }
+
+    public void setPossibleWords(List<Word> possibleWords) {
+        this.possibleWords = possibleWords;
+    }
+
+    public List<Character> getBadLetters() {
         return badLetters;
     }
 
-    public void setBadLetters(List<String> badLetters) {
+    public void setBadLetters(List<Character> badLetters) {
         this.badLetters = badLetters;
     }
 
-    public List<String> getMisplacedLetters() {
-        return misplacedLetters;
+    public List<Character> getGoodLetters() {
+        return goodLetters;
     }
 
-    public void setMisplacedLetters(List<String> misplacedLetters) {
-        this.misplacedLetters = misplacedLetters;
-    }
-
-    public List<String> getPerfectLetters() {
-        return perfectLetters;
-    }
-
-    public void setPerfectLetters(List<String> perfectLetters) {
-        this.perfectLetters = perfectLetters;
+    public void setGoodLetters(List<Character> goodLetters) {
+        this.goodLetters = goodLetters;
     }
 
 
-    // Methods
-    public List<Word> getWordsInBank() {
-        return wordsInBank;
+    //constructor
+
+    public WordBank(List<Word> wordBank) {
+        this.wordBank = wordBank;
+        this.badLetters = new ArrayList<>();
+        this.goodLetters = new ArrayList<>();
     }
-
-    public void setWordsInBank(List<Word> wordsInBank) {
-        this.wordsInBank = wordsInBank;
-    }
-
-    private List<Word> wordsInBank = new ArrayList<>();
-
-
-    public WordBank(List<Word> startingWordBank){
-        this.wordsInBank = startingWordBank;
-    }
-
 
 
 
